@@ -10,6 +10,7 @@ nixpkgs = ["python311", "python311Packages.pip", "postgresql"]
 [variables]
 NODE_ENV = ""
 NPM_CONFIG_PRODUCTION = "false"
+PORT = "8000"
 
 [phases.setup]
 nixPkgs = ["python311", "python311Packages.pip", "postgresql"]

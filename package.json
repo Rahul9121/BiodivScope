@@ -1,0 +1,13 @@
+{
+  "name": "biodivproscope",
+  "version": "1.0.0",
+  "description": "Biodiversity Risk Assessment Platform",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd frontend-deploy && npm install && npm run build",
+    "vercel-build": "cd frontend-deploy && npm install && npm run build && cp -r build/* ../public/"
+  },
+  "keywords": ["biodiversity", "risk", "assessment", "react", "flask"],
+  "author": "Rahul",
+  "license": "MIT"
+}

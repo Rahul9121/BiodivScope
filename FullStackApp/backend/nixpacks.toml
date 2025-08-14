@@ -16,9 +16,9 @@ nixPkgs = ["python311", "python311Packages.pip", "postgresql"]
 
 [phases.install]
 cmds = [
-  "echo 'Installing Python dependencies...'",
-  "pip install --upgrade pip",
-  "pip install -r requirements.txt"
+  "echo 'Installing Python dependencies with caching...'",
+  "pip install --upgrade pip --cache-dir /tmp/pip-cache",
+  "pip install -r requirements.txt --cache-dir /tmp/pip-cache --no-compile"
 ]
 
 [phases.build]

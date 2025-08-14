@@ -18,20 +18,49 @@ from config import Config
 try:
     from backend.routes.account_routes import account_bp
     from backend.routes.location_routes import location_bp
+except ImportError:
+    # Handle imports for Railway deployment structure
+    try:
+        from routes.account_routes import account_bp
+        from routes.location_routes import location_bp
+    except ImportError:
+        # Create minimal blueprints if routes don't exist
+        from flask import Blueprint
+        account_bp = Blueprint('account', __name__)
+        location_bp = Blueprint('locations', __name__)
+        
+        @account_bp.route('/test')
+        def account_test():
+            return jsonify({"message": "Account routes not available yet"})
+            
+        @location_bp.route('/test')
+        def location_test():
+            return jsonify({"message": "Location routes not available yet"})
+
+# Handle heavy ML dependencies gracefully
+try:
     from backend.mitigation_action import (
         generate_mitigation_report,
         query_mitigation_action,
         threat_level_from_code
     )
 except ImportError:
-    # Handle imports for Railway deployment structure
-    from routes.account_routes import account_bp
-    from routes.location_routes import location_bp
-    from mitigation_action import (
-        generate_mitigation_report,
-        query_mitigation_action,
-        threat_level_from_code
-    )
+    try:
+        from mitigation_action import (
+            generate_mitigation_report,
+            query_mitigation_action,
+            threat_level_from_code
+        )
+    except ImportError:
+        # Create dummy functions if ML modules aren't available
+        def generate_mitigation_report(*args, **kwargs):
+            return {"message": "ML features not available yet"}
+            
+        def query_mitigation_action(*args, **kwargs):
+            return {"message": "ML features not available yet"}
+            
+        def threat_level_from_code(*args, **kwargs):
+            return "unknown"
 
 import xlsxwriter
 import traceback
@@ -217,6 +246,38 @@ def standardize_threat_status(status):
         "unknown": "low"
     }
     return mapping.get(status.lower(), "low")
+
+# Basic API endpoints for testing
+@app.route('/api/test', methods=['GET'])
+def api_test():
+    """Test endpoint to verify API is working"""
+    return jsonify({
+        "message": "BiodivScope API is working!",
+        "status": "success",
+        "endpoints": {
+            "health": "/health",
+            "address_autocomplete": "/address-autocomplete",
+            "session_risks": "/session-risks",
+            "account_test": "/account/test",
+            "location_test": "/locations/test"
+        }
+    })
+
+@app.route('/api/status', methods=['GET'])
+def api_status():
+    """API status endpoint"""
+    try:
+        # Test database connection
+        db_status = "connected" if connect_db() else "disconnected"
+    except:
+        db_status = "error"
+    
+    return jsonify({
+        "api": "running",
+        "database": db_status,
+        "environment": app.config['ENV'],
+        "version": "1.0.0"
+    })
 
 # Copy your existing routes here...
 # [The rest of your app.py routes would go here]

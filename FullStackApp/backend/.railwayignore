@@ -1,0 +1,15 @@
+*.md
+.DS_Store
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+.venv/
+venv/
+env/
+node_modules/
+package*.json
+*.log

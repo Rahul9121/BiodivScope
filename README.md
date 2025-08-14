@@ -1,6 +1,6 @@
 # 🌿 BiodivProScope - Biodiversity Risk Assessment Platform
 
-[![Deploy BiodivProScope](https://github.com/yourusername/biodivproscope/actions/workflows/deploy.yml/badge.svg)](https://github.com/yourusername/biodivproscope/actions/workflows/deploy.yml)
+[![Deploy BiodivProScope](https://github.com/Rahul9121/BiodivScope/actions/workflows/deploy.yml/badge.svg)](https://github.com/Rahul9121/BiodivScope/actions/workflows/deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![React](https://img.shields.io/badge/React-18.2+-blue.svg)](https://reactjs.org/)
@@ -68,8 +68,8 @@ BiodivProScope is a comprehensive web-based platform for biodiversity risk asses
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/biodivproscope.git
-   cd biodivproscope
+   git clone https://github.com/Rahul9121/BiodivScope.git
+   cd BiodivScope
    ```
 
 2. **Set up environment variables**
@@ -166,8 +166,8 @@ BiodivProScope is a comprehensive web-based platform for biodiversity risk asses
 
 ```bash
 # On your droplet
-git clone https://github.com/yourusername/biodivproscope.git
-cd biodivproscope
+git clone https://github.com/Rahul9121/BiodivScope.git
+cd BiodivScope
 docker-compose up -d
 ```
 
@@ -332,9 +332,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 - 📧 Email: support@biodivproscope.com
-- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/biodivproscope/issues)
-- 📖 Documentation: [Wiki](https://github.com/yourusername/biodivproscope/wiki)
-- 💬 Discussions: [GitHub Discussions](https://github.com/yourusername/biodivproscope/discussions)
+- 🐛 Issues: [GitHub Issues](https://github.com/Rahul9121/BiodivScope/issues)
+- 📖 Documentation: [Wiki](https://github.com/Rahul9121/BiodivScope/wiki)
+- 💬 Discussions: [GitHub Discussions](https://github.com/Rahul9121/BiodivScope/discussions)
 
 ---
 

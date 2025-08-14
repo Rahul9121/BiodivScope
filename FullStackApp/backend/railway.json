@@ -5,9 +5,7 @@
     "buildCommand": "pip install --upgrade pip && pip install -r requirements.txt"
   },
   "deploy": {
-    "startCommand": "gunicorn app_railway_minimal:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120",
-    "healthcheckPath": "/health",
-    "healthcheckTimeout": 300,
+    "startCommand": "gunicorn app_debug:app --bind 0.0.0.0:$PORT --workers 1 --timeout 300 --log-level info",
     "restartPolicyType": "on_failure"
   },
   "environments": {

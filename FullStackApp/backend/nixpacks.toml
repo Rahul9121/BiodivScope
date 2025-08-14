@@ -1,14 +1,21 @@
 [providers]
 python = "3.11"
 
+[providers.node]
+version = false
+
 [phases.setup]
-nixPkgs = ["python311", "python311Packages.pip", "gcc"]
+nixPkgs = ["python311", "python311Packages.pip", "postgresql"]
 
 [phases.install]
-cmds = ["pip install -r requirements.txt"]
+cmds = [
+  "echo 'Installing Python dependencies...'",
+  "pip install --upgrade pip",
+  "pip install -r requirements.txt"
+]
 
 [phases.build]
-cmds = ["echo 'No build phase needed'"]
+cmds = ["echo 'Python Flask app - no build needed'"]
 
 [start]
-cmd = "gunicorn app:app --bind 0.0.0.0:$PORT"
+cmd = "gunicorn app_prod:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120"

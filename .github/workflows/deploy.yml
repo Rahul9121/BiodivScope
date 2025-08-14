@@ -1,0 +1,136 @@
+name: Deploy BiodivProScope
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: biodivproscope
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_DB: biodivproscope_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: FullStackApp/frontend/package-lock.json
+    
+    - name: Install Python dependencies
+      run: |
+        cd FullStackApp/backend
+        pip install -r requirements.txt
+        pip install pytest pytest-cov
+    
+    - name: Install Node dependencies
+      run: |
+        cd FullStackApp/frontend
+        npm ci
+    
+    - name: Run Python tests
+      env:
+        DATABASE_URL: postgresql://postgres:test_password@localhost:5432/biodivproscope_test
+      run: |
+        cd FullStackApp/backend
+        pytest --cov=. --cov-report=xml
+    
+    - name: Run Frontend tests
+      run: |
+        cd FullStackApp/frontend
+        npm test -- --coverage --watchAll=false
+    
+    - name: Build Frontend
+      run: |
+        cd FullStackApp/frontend
+        npm run build
+
+  build-and-push:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Log in to Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Extract metadata (tags, labels) for Backend
+      id: meta-backend
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ github.repository }}/backend
+
+    - name: Extract metadata (tags, labels) for Frontend
+      id: meta-frontend
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ github.repository }}/frontend
+
+    - name: Build and push Backend Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: FullStackApp/backend
+        push: true
+        tags: ${{ steps.meta-backend.outputs.tags }}
+        labels: ${{ steps.meta-backend.outputs.labels }}
+
+    - name: Build and push Frontend Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: FullStackApp/frontend
+        push: true
+        tags: ${{ steps.meta-frontend.outputs.tags }}
+        labels: ${{ steps.meta-frontend.outputs.labels }}
+
+  deploy:
+    needs: [test, build-and-push]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Deploy to production
+      run: |
+        echo "🚀 Deployment would happen here"
+        echo "This would typically involve:"
+        echo "- Connecting to your server"
+        echo "- Pulling new images"
+        echo "- Running docker-compose up with new images"
+        echo "- Running database migrations"
+        echo "- Health checks"

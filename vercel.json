@@ -1,7 +1,4 @@
 {
-  "buildCommand": "cd FullStackApp/frontend && npm ci && npm run build",
-  "outputDirectory": "FullStackApp/frontend/build",
-  "installCommand": "npm install",
   "rewrites": [
     {
       "source": "/(.*)",

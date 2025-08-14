@@ -7,10 +7,9 @@
   "author": "Rahul",
   "license": "MIT",
   "scripts": {
-    "start": "cd FullStackApp/frontend && npm start",
-    "build": "node build.js",
-    "test": "cd FullStackApp/frontend && npm test",
-    "install": "cd FullStackApp/frontend && npm install"
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test"
   },
   "dependencies": {
     "@changey/react-leaflet-markercluster": "^4.0.0-rc1",

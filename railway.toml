@@ -1,0 +1,11 @@
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "cd FullStackApp/backend && gunicorn app_railway:app --bind 0.0.0.0:$PORT --workers 4 --timeout 120"
+healthcheckPath = "/health"
+healthcheckTimeout = 300
+restartPolicyType = "on_failure"
+
+[environments.production.variables]
+PYTHONPATH = "FullStackApp/backend"

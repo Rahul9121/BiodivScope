@@ -18,4 +18,4 @@ cmds = [
 cmds = ["echo 'Python Flask app - no build needed'"]
 
 [start]
-cmd = "gunicorn app_prod:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120"
+cmd = "gunicorn app_railway:app --bind 0.0.0.0:$PORT --workers 4 --timeout 120"

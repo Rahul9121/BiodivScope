@@ -1,15 +1,36 @@
-*.md
-.DS_Store
-.env
+# Node.js files - EXCLUDE COMPLETELY
+package.json
+package-lock.json
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npmrc
+
+# Frontend directory
+../frontend/
+
+# Root directory files
+../../package.json
+../../package-lock.json
+../../node_modules/
+
+# Python cache
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 .pytest_cache/
 .coverage
+
+# Environment
+.env
+.env.local
 .venv/
 venv/
 env/
-node_modules/
-package*.json
+
+# System files
+*.md
+.DS_Store
 *.log
